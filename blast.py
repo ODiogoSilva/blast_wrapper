@@ -41,7 +41,7 @@ parser.add_argument("-e",dest="evalue",default=1,type=int,help="The minimum e-va
 parser.add_argument("-hit",dest="hitlist",default=50,type=int,help="The maximum number of hits per BLAST search (default is '%(default)s')")
 parser.add_argument("-p",dest="proc",default=7,type=int,help="The number of parallel instaces to run BLAST. Use with caution, as a number larger than 7 may cause the connection to be severed due to overload")
 parser.add_argument("-o",dest="outputfile",required=True,help="Please provide the name of the output file")
-parser.add_argument("-outfmt",dest="output_format",default="XML",choices=["HTML","Text","ASN.1"],help="Select the BLAST output format")
+parser.add_argument("-outfmt",dest="output_format",default="XML",choices=["HTML","Text","ASN.1","XML"],help="Select the BLAST output format")
 
 arg = parser.parse_args()
 
