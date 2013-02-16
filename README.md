@@ -10,7 +10,7 @@ blast.py has several options (see below) that allow you to costumize your BLAST 
 - blast.py -in INPUTFILE -o OUTPUTFILE_NAME
 
 Here, the "-in" option is used to specify the FASTA input file name, and the "-o" option is used to specify the name of the BLAST output file.
-By default, blast.py will run "blastn" on the "NR" database and the output will be in "XML" format. It will use an e-value threshold of "1" and will limit the number of best hits per search to "50". Seven parallel instances will be run, as in BLAST2GO. I do not advise you to use a larger number because it may causa overload of the remote servers, resulting in a severed connection.
+By default, blast.py will run "blastn" on the "NR" database and the output will be in "XML" format. It will use an e-value threshold of "1" and will limit the number of best hits per search to "50". Seven parallel instances will be run, as in BLAST2GO. I do not advise you to use a larger number because it may causa overload of the remote servers, resulting in a severed connection. All this options can be changed using the options below.
 
 - blast.py -in INPUTFILE -b blastp -db swissprot -o OUTPUTFILE_NAME
 
