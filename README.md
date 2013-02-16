@@ -20,6 +20,11 @@ Here, I specified the "blastp" program and swissprot database, instead of the de
 
 Here, I specified the "tblastn" program and an evalue cut off of 1e-10
 
+#### When the connection is severed before time
+
+Since this program depends on the good will of the NCBI servers, I also implemented a fail safe in case the connection is lost. When the program detects that the BLAST search was not completed for any reason, it will produce a new FASTA file (that will end with ".resume") containing the sequences that were not BLASTed yet. In this way, the user can resume the BLAST search from the last saved point, avoiding the inconveniance of having to start all over again and BLASTing sequences repeatedly.
+
+Depending on you internet connection, this is not a common issue (happened only once in my tests), but I implemented this nevertheless, just to be on the safe side.
 
 #### Options
 
