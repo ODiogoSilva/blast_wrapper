@@ -50,4 +50,4 @@ blast.py has the following options (which can also be consulted by typing "blast
 							
   -o OUTPUTFILE         									**Please provide the name of the output file**
   
-  -outfmt {HTML,Text,ASN.1}									**Select the BLAST output format**
+  -outfmt {HTML,Text,ASN.1,XML}									**Select the BLAST output format**
