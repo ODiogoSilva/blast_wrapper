@@ -174,8 +174,8 @@ def backup (input_file, backup_list):
 
 if __name__ == '__main__':
 	input_file = arg.infile
-	dump = main()
+	dump = main(input_file)
 	while dump != []:
 		print ("Restarting...")
 		backup(arg.infile,dump)
-		dump = main()
+		dump = main(input_file)
