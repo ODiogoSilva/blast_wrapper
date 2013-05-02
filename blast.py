@@ -120,8 +120,7 @@ def output_check (output_name):
 			sys.exit("Option %s not recognized. Exiting!\n" % condition)				
 
 
-def main():
-	input_file = arg.infile
+def main(input_file):
 	blast_program = arg.blast_prog
 	blast_database = arg.database
 	evalue = arg.evalue
@@ -151,6 +150,7 @@ def main():
 										range(proc_number),
 										itertools.repeat(output_format)))
 		except:
+			print ("Multiprocess exception! Creating backup...")
 			fasta_backup = fasta_backup[proc_number:]
 			output_merge (output_file)
 			return fasta_backup
@@ -162,6 +162,10 @@ def main():
 
 def backup (input_file, backup_list):
 	""" Function that writes the remaining sequences to a new file so that the blast search can resume """
+	# Check if previous resume file exists
+	if os.path.exists(input_file+".resume"):
+		subprocess.Popen(["rm %s" % input_file+".resume"],shell=True).wait()
+		
 	output_file = open(input_file+".resume","w")
 	for name,seq in backup_list:
 		output_file.write(">%s\n%s\n" % (name,seq))
@@ -169,6 +173,9 @@ def backup (input_file, backup_list):
 	return 0
 
 if __name__ == '__main__':
+	input_file = arg.infile
 	dump = main()
-	if dump != []:
+	while dump != []:
+		print ("Restarting...")
 		backup(arg.infile,dump)
+		dump = main()
