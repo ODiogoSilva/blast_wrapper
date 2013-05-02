@@ -20,7 +20,7 @@
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
 #  
-#  blast.py v1.0
+#  blast.py v1.1
 #  Author: Diogo N Silva
 #  Last update: 14/02/2013 
 
