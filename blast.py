@@ -129,9 +129,6 @@ def main(input_file):
 	output_file = arg.outputfile
 	output_format = arg.output_format
 	
-	# Checking if output file already exists
-	output_check (output_file)
-	
 	# Parsing and organizing data set
 	fasta_list = read_file (input_file)
 	fasta_backup = fasta_list[:] # Creating list copy for backup purposes
@@ -150,7 +147,7 @@ def main(input_file):
 										range(proc_number),
 										itertools.repeat(output_format)))
 		except:
-			print ("Multiprocess exception! Creating backup...")
+			print ("\nMultiprocess exception! Creating backup...")
 			fasta_backup = fasta_backup[proc_number:]
 			output_merge (output_file)
 			return fasta_backup
@@ -173,6 +170,9 @@ def backup (input_file, backup_list):
 	return 0
 
 if __name__ == '__main__':
+	# Checking if output file already exists
+	output_check (output_file)
+	
 	input_file = arg.infile
 	dump = main(input_file)
 	while dump != []:
