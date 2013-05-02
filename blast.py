@@ -129,6 +129,7 @@ def main():
 	proc_number = arg.proc
 	output_file = arg.outputfile
 	output_format = arg.output_format
+	counter = 0
 	
 	# Checking if output file already exists
 	output_check (output_file)
@@ -151,8 +152,10 @@ def main():
 										range(proc_number),
 										itertools.repeat(output_format)))
 		except:
-			continue
-		fasta_backup = fasta_backup[proc_number:]
+			fasta_backup = fasta_backup[counter:]
+			return fasta_backup
+		counter += proc_number
+		fasta_backup = fasta_backup[counter:]
 	else:
 		output_merge (output_file)
 	
