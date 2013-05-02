@@ -171,9 +171,11 @@ def backup (input_file, backup_list):
 
 if __name__ == '__main__':
 	# Checking if output file already exists
+	input_file = arg.infile
+	output_file = arg.outputfile
+	
 	output_check (output_file)
 	
-	input_file = arg.infile
 	dump = main(input_file)
 	while dump != []:
 		print ("Restarting...")
