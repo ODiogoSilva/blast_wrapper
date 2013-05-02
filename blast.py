@@ -152,6 +152,7 @@ def main():
 										itertools.repeat(output_format)))
 		except:
 			fasta_backup = fasta_backup[proc_number:]
+			output_merge (output_file)
 			return fasta_backup
 		fasta_backup = fasta_backup[proc_number:]
 	else:
