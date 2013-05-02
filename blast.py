@@ -24,6 +24,7 @@
 #  Author: Diogo N Silva
 #  Last update: 14/02/2013 
 
+import os
 import sys
 import argparse
 import itertools
@@ -107,6 +108,18 @@ def output_merge (output_name):
 	subprocess.Popen(["cat blast_out_* >> %s" % (output_name)],shell=True).wait()
 	subprocess.Popen(["rm blast_out_*"],shell=True).wait()
 
+def output_check (output_name):
+	""" Function that checks if the output file name is already present in the current directory """
+	if os.path.exists(output_name):
+		condition = raw_input("The file %s already exists.\n\nDo you really really want to proceed? Oh! Oh! Oh! (y/n): " % output_name)
+		if condition == "y":
+			pass
+		elif condition == "n":
+			sys.exit("Exiting")
+		else:
+			sys.exit("Option %s not recognized. Exiting!\n" % condition)				
+
+
 def main():
 	input_file = arg.infile
 	blast_program = arg.blast_prog
@@ -116,6 +129,9 @@ def main():
 	proc_number = arg.proc
 	output_file = arg.outputfile
 	output_format = arg.output_format
+	
+	# Checking if output file already exists
+	output_check (output_file)
 	
 	# Parsing and organizing data set
 	fasta_list = read_file (input_file)
