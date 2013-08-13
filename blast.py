@@ -150,11 +150,11 @@ def main(input_f):
 	
 		# Creating process pool and running remote BLAST
 		fasta_subset = subset_creator(fasta_list,proc=proc_number)
-		pool = Pool(processes=proc_number)
+		
 		for subset in fasta_subset:
-			loading(fasta_subset.index(subset),len(fasta_subset),"BLASTing my way through... ",50)
+			loading(fasta_subset.index(subset),len(fasta_subset),"BLASTing... ",50)
 			try:
-				pool.map(blast, itertools.izip(itertools.repeat(blast_program),
+				map(blast, itertools.izip(itertools.repeat(blast_program),
 											subset,
 											itertools.repeat(blast_database),
 											itertools.repeat(evalue),
@@ -166,6 +166,23 @@ def main(input_f):
 			fasta_backup = fasta_backup[proc_number:]
 		else:
 			output_merge (output_file)
+		
+		#~ pool = Pool(processes=proc_number)
+		#~ for subset in fasta_subset:
+			#~ loading(fasta_subset.index(subset),len(fasta_subset),"BLASTing my way through... ",50)
+			#~ try:
+				#~ pool.map(blast, itertools.izip(itertools.repeat(blast_program),
+											#~ subset,
+											#~ itertools.repeat(blast_database),
+											#~ itertools.repeat(evalue),
+											#~ itertools.repeat(hitlist),
+											#~ range(proc_number),
+											#~ itertools.repeat(output_format)))
+			#~ except:
+				#~ continue
+			#~ fasta_backup = fasta_backup[proc_number:]
+		#~ else:
+			#~ output_merge (output_file)
 	
 	return fasta_backup
 
