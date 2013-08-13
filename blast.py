@@ -120,7 +120,8 @@ def output_check (output_name):
 			sys.exit("Option %s not recognized. Exiting!\n" % condition)				
 
 
-def main(input_file):
+def main():
+	input_file = arg.infile
 	blast_program = arg.blast_prog
 	blast_database = arg.database
 	evalue = arg.evalue
@@ -132,30 +133,42 @@ def main(input_file):
 	# Parsing and organizing data set
 	fasta_list = read_file (input_file)
 	fasta_backup = fasta_list[:] # Creating list copy for backup purposes
-	fasta_subset = subset_creator(fasta_list,proc=proc_number)
 	
-	# Creating process pool and running remote BLAST
-	pool = Pool(processes=proc_number)
-	for subset in fasta_subset:
-		loading(fasta_subset.index(subset),len(fasta_subset),"BLASTing my way through... ",50)
-		try:
-			pool.map(blast, itertools.izip(itertools.repeat(blast_program),
-										subset,
-										itertools.repeat(blast_database),
-										itertools.repeat(evalue),
-										itertools.repeat(hitlist),
-										range(proc_number),
-										itertools.repeat(output_format)))
-		except:
-			print ("\nMultiprocess exception! Creating backup...")
-			fasta_backup = fasta_backup[proc_number:]
-			output_merge (output_file)
-			return fasta_backup
-		fasta_backup = fasta_backup[proc_number:]
+	if proc_number == 1:
+		
+		for fasta_element in fasta_list:
+			loading(fasta_list.index(fasta_element), len(fasta_list), "BLASTing... ", 50)
+			
+			try:
+				blast([blast_program, fasta_element, blast_database, evalue, hitlist, "BLAST_output", output_format])
+			except:
+				continue
+			
+			fasta_backup = fasta_backup[fasta_list.index(fasta_element):]
+		
 	else:
-		output_merge (output_file)
+	
+		# Creating process pool and running remote BLAST
+		fasta_subset = subset_creator(fasta_list,proc=proc_number)
+		pool = Pool(processes=proc_number)
+		for subset in fasta_subset:
+			loading(fasta_subset.index(subset),len(fasta_subset),"BLASTing my way through... ",50)
+			try:
+				pool.map(blast, itertools.izip(itertools.repeat(blast_program),
+											subset,
+											itertools.repeat(blast_database),
+											itertools.repeat(evalue),
+											itertools.repeat(hitlist),
+											range(proc_number),
+											itertools.repeat(output_format)))
+			except:
+				continue
+			fasta_backup = fasta_backup[proc_number:]
+		else:
+			output_merge (output_file)
 	
 	return fasta_backup
+
 
 def backup (input_file, backup_list):
 	""" Function that writes the remaining sequences to a new file so that the blast search can resume """
