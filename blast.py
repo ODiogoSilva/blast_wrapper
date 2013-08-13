@@ -120,8 +120,8 @@ def output_check (output_name):
 			sys.exit("Option %s not recognized. Exiting!\n" % condition)				
 
 
-def main():
-	input_file = arg.infile
+def main(input_f):
+	input_file = input_f
 	blast_program = arg.blast_prog
 	blast_database = arg.database
 	evalue = arg.evalue
@@ -140,7 +140,7 @@ def main():
 			loading(fasta_list.index(fasta_element), len(fasta_list), "BLASTing... ", 50)
 			
 			try:
-				blast([blast_program, fasta_element, blast_database, evalue, hitlist, "BLAST_output", output_format])
+				blast([blast_program, fasta_element, blast_database, evalue, hitlist, output_file, output_format])
 			except:
 				continue
 			
