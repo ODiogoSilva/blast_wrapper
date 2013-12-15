@@ -98,7 +98,7 @@ def blast (arguments):
 	output_format = arguments[6]
 	
 	# Executing BLAST
-	save_file = open("blast_out_%s" % (output_num),"a")
+	save_file = open("blast_out_%s_%s" % (output_num, output_file)  ,"a")
 	result_handle = NCBIWWW.qblast(blast_program, database, ">%s\n%s" % (name, seq), expect=evalue, hitlist_size=hitlist, format_type=output_format)
 	save_file.write(result_handle.read())
 	save_file.close()
