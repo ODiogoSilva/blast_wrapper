@@ -107,7 +107,7 @@ def blast (arguments):
 def output_merge (output_name):
 	""" Function that merge the individual output blast searches into a single file """
 	subprocess.Popen(["cat blast_out_%s_* >> %s" % (output_name,output_name)],shell=True).wait()
-	subprocess.Popen(["rm blast_out_%s_*" % (output_file)],shell=True).wait()
+	subprocess.Popen(["rm blast_out_%s_*" % (output_name)],shell=True).wait()
 
 def output_check (output_name):
 	""" Function that checks if the output file name is already present in the current directory """
