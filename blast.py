@@ -96,6 +96,7 @@ def blast (arguments):
 	hitlist = arguments[4]
 	output_num = arguments[5]
 	output_format = arguments[6]
+	#output_file defined in main
 	
 	# Executing BLAST
 	save_file = open("blast_out_%s_%s" % (output_file,output_num)  ,"a")
@@ -105,7 +106,7 @@ def blast (arguments):
 	
 def output_merge (output_name):
 	""" Function that merge the individual output blast searches into a single file """
-	subprocess.Popen(["cat blast_out_%s_* >> %s" % (output_file,output_name)],shell=True).wait()
+	subprocess.Popen(["cat blast_out_%s_* >> %s" % (output_name,output_name)],shell=True).wait()
 	subprocess.Popen(["rm blast_out_%s_*" % (output_file)],shell=True).wait()
 
 def output_check (output_name):
