@@ -43,6 +43,7 @@ parser.add_argument("-hit",dest="hitlist",default=50,type=int,help="The maximum 
 parser.add_argument("-p",dest="proc",default=7,type=int,help="The number of parallel instaces to run BLAST. Use with caution, as a number larger than 7 may cause the connection to be severed due to overload")
 parser.add_argument("-o",dest="outputfile",required=True,help="Please provide the name of the output file")
 parser.add_argument("-outfmt",dest="output_format",default="XML",choices=["HTML","Text","ASN.1","XML"],help="Select the BLAST output format")
+parser.add_argument("-backup",dest="backup",action="store_const",const=True, default=False,help="Use this option to continuously create a checkpoint file *.resume with the fasta sequences that have not been BLASTed yet")
 
 arg = parser.parse_args()
 
@@ -98,7 +99,7 @@ def blast (arguments):
 	output_format = arguments[6]
 	
 	# Executing BLAST
-	save_file = open("blast_out_%s" % (output_num),"a")
+	save_file = open("blast_out_%s_%s" % (output_num, output_file),"a")
 	result_handle = NCBIWWW.qblast(blast_program, database, ">%s\n%s" % (name, seq), expect=evalue, hitlist_size=hitlist, format_type=output_format)
 	save_file.write(result_handle.read())
 	save_file.close()
@@ -164,6 +165,8 @@ def main(input_f):
 			except:
 				continue
 			fasta_backup = fasta_backup[proc_number:]
+			if arg.backup:
+				backup(input_filem fasta_backup)
 		else:
 			output_merge (output_file)
 	
