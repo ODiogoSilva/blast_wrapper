@@ -101,7 +101,13 @@ def blast (arguments):
 	
 	# Executing BLAST
 	save_file = open("blast_out_%s_%s" % (output_file,output_num)  ,"a")
-	result_handle = NCBIWWW.qblast(blast_program, database, ">%s\n%s" % (name, seq), expect=evalue, hitlist_size=hitlist, format_type=output_format)
+
+	try:
+		result_handle = NCBIWWW.qblast(blast_program, database, ">%s\n%s" % (name, seq), expect=evalue, hitlist_size=hitlist, format_type=output_format)
+	# Ensuring that when the sequence input type and blast program are incompatible, the program exits cleanly and with an informative error
+	except(ValueError):
+		sys.exit("\nPlease check the compatibility between the input sequence type and the BLAST program")
+
 	save_file.write(result_handle.read())
 	save_file.close()
 	
@@ -165,12 +171,12 @@ def main(input_f):
 											itertools.repeat(output_format)))
 
 			# In case the script is manually interrupted, make a clean exit
-			except(KeyboardInterrupt, SystemExit):
+			except(KeyboardInterrupt):
 				backup(input_file, fasta_backup)
 				sys.exit("\nCreating backup file and exiting...")
 
-			except:
-				continue
+			# except:
+			# 	continue
 
 			fasta_backup = fasta_backup[proc_number:]
 			if arg.backup:
