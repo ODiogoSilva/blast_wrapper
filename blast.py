@@ -167,7 +167,7 @@ def main(input_f):
 				continue
 			fasta_backup = fasta_backup[proc_number:]
 			if arg.backup:
-				backup(input_filem fasta_backup)
+				backup(input_file, fasta_backup)
 		else:
 			output_merge (output_file)
 	
