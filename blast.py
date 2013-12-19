@@ -163,8 +163,15 @@ def main(input_f):
 											itertools.repeat(hitlist),
 											range(proc_number),
 											itertools.repeat(output_format)))
+
+			# In case the script is manually interrupted, make a clean exit
+			except(KeyboardInterrupt, SystemExit):
+				backup(input_file, fasta_backup)
+				sys.exit("\nCreating backup file and exiting...")
+
 			except:
 				continue
+
 			fasta_backup = fasta_backup[proc_number:]
 			if arg.backup:
 				backup(input_file, fasta_backup)
