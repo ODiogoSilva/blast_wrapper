@@ -97,17 +97,18 @@ def blast (arguments):
 	hitlist = arguments[4]
 	output_num = arguments[5]
 	output_format = arguments[6]
+	#output_file defined in main
 	
 	# Executing BLAST
-	save_file = open("blast_out_%s_%s" % (output_num, output_file),"a")
+	save_file = open("blast_out_%s_%s" % (output_file,output_num)  ,"a")
 	result_handle = NCBIWWW.qblast(blast_program, database, ">%s\n%s" % (name, seq), expect=evalue, hitlist_size=hitlist, format_type=output_format)
 	save_file.write(result_handle.read())
 	save_file.close()
 	
 def output_merge (output_name):
 	""" Function that merge the individual output blast searches into a single file """
-	subprocess.Popen(["cat blast_out_* >> %s" % (output_name)],shell=True).wait()
-	subprocess.Popen(["rm blast_out_*"],shell=True).wait()
+	subprocess.Popen(["cat blast_out_%s_* >> %s" % (output_name,output_name)],shell=True).wait()
+	subprocess.Popen(["rm blast_out_%s_*" % (output_name)],shell=True).wait()
 
 def output_check (output_name):
 	""" Function that checks if the output file name is already present in the current directory """
